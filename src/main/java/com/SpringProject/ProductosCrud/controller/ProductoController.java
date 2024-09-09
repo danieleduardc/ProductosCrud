@@ -49,6 +49,15 @@ public class ProductoController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Producto> buscarProducto(@PathVariable int id) {
+        Producto producto = productoService.findById(id);
+        if(producto == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(producto, HttpStatus.OK);
+    }
+
     @GetMapping(path = "/page")
     public ResponseEntity<Page<Producto>> listarProductos(@RequestParam int page, @RequestParam int size, @RequestParam(required = false) String categoria, @RequestParam(required = false) String nombre) {
         Page<Producto> productos = productoService.findAll(page, size, categoria, nombre);
